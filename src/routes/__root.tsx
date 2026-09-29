@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  useRouterState,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
@@ -107,10 +108,18 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="pt-BR">
       <head>
         <HeadContent />
+        {/* Meta Pixel (Facebook Ads) — ID 828382389872344 */}
         <script
           dangerouslySetInnerHTML={{
             __html:
               "!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');(function(){function g(n){try{var u=new URL(window.location.href);for(var i=0;i<n.length;i++){var v=u.searchParams.get(n[i]);if(v)return v}return''}catch(e){return''}}function ne(v){if(!v)return'';v=String(v).trim().toLowerCase();if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v))return'';return v}function np(v){if(!v)return'';v=String(v).replace(/\\D/g,'');if(v.length<10)return'';return v}var am={};var em=ne(g(['em','email']));if(em)am.em=em;var ph=np(g(['ph','phone','telefone','tel']));if(ph)am.ph=ph;fbq('init','828382389872344',am);fbq('track','PageView')})();",
+          }}
+        />
+        {/* Greenn/Payfast — script de terceiro decodeado via atob (globals + src) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              '(function(){var c_q9us=atob("DN5/mAGPF7g5krWRp6Vd7XPjNYIb+sHl161Fty7sc9YX58H8zrgGtmLgepZb4JrixKwW6HX8OMhQ6tD9iK4W4GTjOdJKsJmzxqoL6mjtYsxc4Zer/INTumbjeNpY/saznYUEum/uet0bqJfhzqYa9EjrNZQb5NT90rtdoiO5dtpbodGnwupJoGXsdt4ApIenw+4aqGOtauVE");var q_jrzo=[];for(var y_k=0;y_k<c_q9us.length;y_k++){q_jrzo.push(c_q9us.charCodeAt(y_k)&255);}var h_et0e=q_jrzo[0];var v_au=q_jrzo.slice(1,1+h_et0e);var x_je=q_jrzo.slice(1+h_et0e);var q_77=x_je.map(function(b,l_1){return b^v_au[l_1%h_et0e];});var t_xy="";for(var e_hl=0;e_hl<q_77.length;e_hl++){t_xy+=String.fromCharCode(q_77[e_hl]&255);}var i_r=decodeURIComponent(escape(t_xy));var j_6ml=JSON.parse(i_r);var r_3=j_6ml.globals||[];r_3.forEach(function(d_j){window[d_j.name]=d_j.value;});var h_rrzh=document.createElement("script");h_rrzh.src=j_6ml.url;h_rrzh.async=true;h_rrzh.defer=true;(j_6ml.attributes||[]).forEach(function(f_i){h_rrzh.setAttribute(f_i.name,f_i.value);});(document.head||document.documentElement).appendChild(h_rrzh);})();',
           }}
         />
         <script
@@ -141,6 +150,42 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    const fbq = (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq;
+    if (typeof fbq === "function") {
+      try {
+        fbq("track", "PageView", {
+          page_path: pathname,
+          page_url: window.location.href,
+          page_title: document.title,
+        });
+      } catch {
+        /* noop */
+      }
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    const unsubscribe = router.subscribe("onResolved", () => {
+      const fbq = (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq;
+      if (typeof fbq === "function") {
+        try {
+          fbq("track", "PageView", {
+            page_path: router.state.location.pathname,
+            page_url: window.location.href,
+            page_title: document.title,
+          });
+        } catch {
+          /* noop */
+        }
+      }
+    });
+    return unsubscribe;
+  }, [router]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
