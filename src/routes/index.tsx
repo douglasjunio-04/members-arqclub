@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppShell } from "@/components/AppShell";
 import { HeroBanner } from "@/components/HeroBanner";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
 import { projects, sections } from "@/data/projects";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,71 +15,10 @@ export const Route = createFileRoute("/")({
   component: LandingPage,
 });
 
-const whoFor = [
-  {
-    title: "Você que está saindo do aluguel",
-    desc: "Já tem o terreno (ou vai ter) e quer começar certo, com orçamento claro e projeto profissional.",
-  },
-  {
-    title: "Quer economizar sem perder qualidade",
-    desc: "Evite retrabalho e gastos desnecessários com projetos técnicos completos e organizados.",
-  },
-  {
-    title: "Investidor para aluguel ou venda",
-    desc: "Ganhe velocidade para executar, padronizar e replicar projetos com alto potencial de retorno.",
-  },
-  {
-    title: "Profissional de obra",
-    desc: "Base técnica para apoiar orçamentos, planejamento e execução com mais previsibilidade.",
-  },
-] as const;
-
-const outcomes = [
-  {
-    title: "Economia real e comprovada",
-    desc: "Corte custos com retrabalho e decisões às cegas, seguindo um projeto organizado.",
-  },
-  {
-    title: "Projeto técnico completo",
-    desc: "Conteúdo pronto para apoiar orçamento, compatibilização e tomada de decisão.",
-  },
-  {
-    title: "Aprovação mais rápida",
-    desc: "Material mais claro e padronizado para facilitar o entendimento e ajustes quando necessário.",
-  },
-  {
-    title: "Controle total do orçamento",
-    desc: "Tenha uma base para comparar propostas e negociar com mais segurança.",
-  },
-  {
-    title: "Visualize antes de construir",
-    desc: "Reduza erros ao enxergar o todo com antecedência e planejar etapas de obra.",
-  },
-  {
-    title: "PDF para o canteiro",
-    desc: "Documentos práticos para imprimir e levar para a obra, facilitando o dia a dia.",
-  },
-] as const;
-
-const megaCheckoutUrl =
-  "https://checkout.projetodescomplicado.com.br/88565122/?utm_source=organic&utm_campaign=&utm_medium=&utm_content=&utm_term=";
-const ultraCheckoutUrl =
-  "https://checkout.projetodescomplicado.com.br/16660674/?utm_source=organic&utm_campaign=&utm_medium=&utm_content=&utm_term=";
-const basicCheckoutUrl =
-  "https://checkout.projetodescomplicado.com.br/49126785/?utm_source=organic&utm_campaign=&utm_medium=&utm_content=&utm_term=";
-const basicUpgradeUrl =
-  "https://checkout.projetodescomplicado.com.br/08104661/?utm_source=organic&utm_campaign=&utm_medium=&utm_content=&utm_term=";
+const megaCheckoutUrl = "https://payfast.greenn.com.br/redirect/323798";
+const ultraCheckoutUrl = "https://payfast.greenn.com.br/redirect/323799";
 
 const plans = [
-  {
-    id: "basic",
-    title: "Pack Básico",
-    price: "R$ 10,00",
-    features: ["10+ Projetos Completos (Editáveis em REVIT e DWG)", "Garantia de 07 dias", "Acesso Vitalício"],
-    cta: "Selecionar Básico",
-    highlight: false,
-    checkoutUrl: basicCheckoutUrl,
-  },
   {
     id: "mega",
     title: "Mega Pack",
@@ -128,8 +66,19 @@ const plans = [
 ] as const;
 
 function LandingPage() {
-  const [basicUpgradeOpen, setBasicUpgradeOpen] = useState(false);
   const bonuses = projects.filter((project) => project.isBonus);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const targetId = hash.replace("#", "");
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    const t = window.setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
+    return () => window.clearTimeout(t);
+  }, []);
 
   const track = (event: string, params?: Record<string, unknown>) => {
     const fbq = (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq;
@@ -141,137 +90,25 @@ function LandingPage() {
     <AppShell>
       <HeroBanner compact primaryTo="#previa-area-membros" />
 
-      <section id="apresentacao" className="mx-auto max-w-[1600px] px-4 pb-14 sm:px-8 sm:pb-20">
-        <h2 className="font-display text-2xl font-semibold sm:text-3xl">Para quem é esta coleção?</h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {whoFor.map((i) => (
-            <div
-              key={i.title}
-              className="rounded-2xl border border-border bg-card/40 p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-[var(--gold)]/40 hover:bg-card/60 hover:shadow-glow active:scale-[0.99] active:border-[var(--gold)]/40 active:bg-card/60 active:shadow-glow focus-within:-translate-y-1 focus-within:border-[var(--gold)]/40 focus-within:bg-card/60 focus-within:shadow-glow"
-            >
-              <h3 className="font-display text-sm font-semibold">{i.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{i.desc}</p>
-            </div>
-          ))}
-        </div>
 
-        <h2 className="mt-14 font-display text-2xl font-semibold sm:text-3xl">
-          O que você vai <span className="text-[var(--gold)]">conquistar</span>
-        </h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {outcomes.map((i) => (
-            <div
-              key={i.title}
-              className="rounded-2xl border border-border bg-card/40 p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-[var(--gold)]/40 hover:bg-card/60 hover:shadow-glow active:scale-[0.99] active:border-[var(--gold)]/40 active:bg-card/60 active:shadow-glow focus-within:-translate-y-1 focus-within:border-[var(--gold)]/40 focus-within:bg-card/60 focus-within:shadow-glow"
-            >
-              <h3 className="font-display text-sm font-semibold">{i.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{i.desc}</p>
-            </div>
-          ))}
-        </div>
 
-        <div className="mt-10 rounded-2xl border border-[var(--gold)]/20 bg-[var(--gold)]/5 p-6">
-          <h3 className="font-display text-lg font-semibold">Risco zero. Garantia de 7 dias.</h3>
-          <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
-            Se você não gostar, você pode solicitar reembolso dentro do prazo de garantia. Você compra com tranquilidade
-            e testa por conta própria.
-          </p>
-        </div>
-      </section>
-
-      <section id="planos" className="mx-auto max-w-[1600px] px-4 pb-16 sm:px-8 sm:pb-20">
-        <h2 className="text-center font-display text-2xl font-semibold tracking-wider sm:text-3xl">
-          Selecione <span className="text-muted-foreground">seu plano</span>
-        </h2>
-        <p className="mt-3 text-center text-sm text-muted-foreground">
-          Escolha o pacote ideal para seu objetivo e garanta acesso vitalício.
-        </p>
-
-        <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {plans.map((p) => (
-            <div
-              key={p.title}
-              className={`flex flex-col rounded-2xl border bg-card/40 p-6 ${
-                p.highlight ? "border-[var(--gold)]/60 shadow-glow" : "border-border"
-              }`}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h3 className="font-display text-lg font-semibold">{p.title}</h3>
-                  <p className="mt-2 font-display text-3xl font-bold">{p.price}</p>
-                  {"installments" in p && (
-                    <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-[var(--gold)]">
-                      {p.installments}
-                    </p>
-                  )}
-                </div>
-                {p.highlight && (
-                  <span className="rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[var(--gold)]">
-                    Mais vendido
-                  </span>
-                )}
-              </div>
-
-              <div className="scrollbar-hide mt-6 flex-1 space-y-2 overflow-y-auto pr-2 text-xs text-muted-foreground sm:overflow-visible sm:pr-0 sm:text-sm md:max-h-[320px] xl:max-h-none">
-                {p.features.map((f) => (
-                  <div key={f} className="flex items-start gap-2">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--gold)]/70" />
-                    <span className="leading-relaxed">{f}</span>
-                  </div>
-                ))}
-              </div>
-
-              {p.id === "basic" ? (
-                <button
-                  type="button"
-                  onClick={() => setBasicUpgradeOpen(true)}
-                  className="mt-8 inline-flex w-full items-center justify-center rounded-md border border-border bg-background/40 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground transition hover:border-[var(--gold)]/40 hover:bg-background/60"
-                >
-                  {p.cta}
-                </button>
-              ) : (
-                <a
-                  href={p.checkoutUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() =>
-                    track("InitiateCheckout", {
-                      currency: "BRL",
-                      content_category: "plan",
-                      content_name: p.title,
-                      content_ids: [p.id],
-                      value: p.id === "mega" ? 37.9 : 67,
-                    })
-                  }
-                  className={`mt-8 inline-flex w-full items-center justify-center rounded-md px-5 py-3 text-xs font-semibold uppercase tracking-wider transition ${
-                    p.highlight
-                      ? "bg-[var(--gold)] text-primary-foreground hover:brightness-110 hover:shadow-glow"
-                      : "border border-border bg-background/40 text-foreground hover:border-[var(--gold)]/40 hover:bg-background/60"
-                  }`}
-                >
-                  {p.cta}
-                </a>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="pb-14 sm:pb-20">
+      <section className="pb-8 sm:pb-20 max-sm:pt-1">
         <div className="mx-auto max-w-[1600px] px-4 sm:px-8">
           <p
             id="previa-area-membros"
-            className="scroll-mt-24 font-display text-[11px] uppercase tracking-[0.28em] text-[var(--gold)]"
+            className="scroll-mt-20 font-display text-[10px] uppercase tracking-[0.24em] text-[var(--gold)] sm:text-[11px] sm:tracking-[0.28em] max-sm:scroll-mt-14"
           >
             Prévia da área de membros
           </p>
-          <h2 className="mt-2 font-display text-2xl font-semibold sm:text-3xl">Veja por dentro como você vai acessar</h2>
-          <p className="mt-3 max-w-3xl text-sm text-muted-foreground sm:text-base">
+          <h2 className="mt-1.5 font-display text-lg font-semibold leading-tight sm:mt-2 sm:text-3xl">
+            Veja por dentro como você vai acessar
+          </h2>
+          <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-muted-foreground sm:mt-3 sm:text-base">
             Navegue pela experiência real: seções, carrosséis, projetos e filtros. Essa é a estrutura que você recebe após a compra.
           </p>
         </div>
 
-        <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-14">
+        <div className="mt-4 space-y-6 sm:mt-10 sm:space-y-14 max-sm:mt-3">
           {sections.map((s) => (
             <ProjectCarousel
               key={s.title}
@@ -281,17 +118,24 @@ function LandingPage() {
           ))}
         </div>
 
-        <div className="mx-auto mt-10 max-w-[1600px] px-4 sm:px-8">
-          <div className="flex flex-wrap gap-3">
+        <div className="mx-auto mt-6 max-w-[1600px] px-4 sm:mt-10 sm:px-8 max-sm:mt-4">
+          <div className="grid gap-2.5 sm:flex sm:flex-wrap sm:gap-3">
             <Link
               to="/projetos"
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--gold)] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition hover:brightness-110 hover:shadow-glow"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2.5 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition active:scale-[0.98] hover:brightness-110 hover:shadow-glow sm:w-auto sm:px-6 sm:py-3"
             >
               Ver catálogo
             </Link>
             <a
               href="#planos"
-              className="inline-flex items-center gap-2 rounded-md border border-border bg-white/5 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-foreground backdrop-blur transition hover:bg-white/10 hover:border-[var(--gold)]/40"
+              onClick={(e) => {
+                const el = document.getElementById("planos");
+                if (!el) return;
+                e.preventDefault();
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+                history.replaceState(null, "", "#planos");
+              }}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-border bg-white/5 px-4 py-2.5 text-sm font-semibold uppercase tracking-wider text-foreground backdrop-blur transition active:scale-[0.98] hover:bg-white/10 hover:border-[var(--gold)]/40 sm:w-auto sm:px-6 sm:py-3"
             >
               Garantir meu acesso
             </a>
@@ -299,39 +143,110 @@ function LandingPage() {
         </div>
       </section>
 
+      <section id="planos" className="mx-auto max-w-[1600px] scroll-mt-20 px-4 pb-12 sm:px-8 sm:pb-20 max-sm:scroll-mt-14 max-sm:pb-8">
+        <h2 className="text-center font-display text-xl font-semibold leading-tight tracking-wider sm:text-3xl">
+          Selecione <span className="text-muted-foreground">seu plano</span>
+        </h2>
+        <p className="mt-3 text-center text-sm leading-relaxed text-muted-foreground">
+          Escolha o pacote ideal para seu objetivo e garanta acesso vitalício.
+        </p>
+
+        <div className="mt-7 grid gap-3 sm:mt-10 md:grid-cols-2 lg:gap-6 xl:grid-cols-2">
+          {plans.map((p) => (
+            <div
+              key={p.title}
+              className={`flex flex-col rounded-2xl border bg-card/40 p-5 sm:p-6 ${
+                p.highlight ? "border-[var(--gold)]/60 shadow-glow relative" : "border-border"
+              }`}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="font-display text-base font-semibold sm:text-lg">{p.title}</h3>
+                  <p className="mt-2 font-display text-2xl font-bold sm:text-3xl">{p.price}</p>
+                  {"installments" in p && (
+                    <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--gold)] sm:mt-2 sm:text-xs">
+                      {p.installments}
+                    </p>
+                  )}
+                </div>
+                {p.highlight && (
+                  <span className="shrink-0 rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider text-[var(--gold)] sm:px-3 sm:text-[10px]">
+                    Mais vendido
+                  </span>
+                )}
+              </div>
+
+              <div className="scrollbar-hide mt-5 flex-1 space-y-2 overflow-y-auto pr-1 text-xs leading-relaxed text-muted-foreground sm:mt-6 sm:overflow-visible sm:pr-0 sm:text-sm md:max-h-[340px] xl:max-h-none">
+                {p.features.map((f) => (
+                  <div key={f} className="flex items-start gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--gold)]/70" />
+                    <span className="leading-relaxed">{f}</span>
+                  </div>
+                ))}
+              </div>
+
+              <a
+                href={p.checkoutUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() =>
+                  track("InitiateCheckout", {
+                    currency: "BRL",
+                    content_category: "plan",
+                    content_name: p.title,
+                    content_ids: [p.id],
+                    value: p.id === "mega" ? 37.9 : 67,
+                  })
+                }
+                className={`mt-6 inline-flex w-full items-center justify-center rounded-md px-5 py-3 text-xs font-semibold uppercase tracking-wider transition active:scale-[0.98] sm:mt-8 ${
+                  p.highlight
+                    ? "bg-[var(--gold)] text-primary-foreground hover:brightness-110 hover:shadow-glow"
+                    : "border border-border bg-background/40 text-foreground hover:border-[var(--gold)]/40 hover:bg-background/60"
+                }`}
+              >
+                {p.cta}
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="mx-auto max-w-[1600px] px-4 pb-16 sm:px-8 sm:pb-24">
-        <p className="font-display text-[11px] uppercase tracking-[0.28em] text-[var(--gold)]">Materiais complementares</p>
-        <h2 className="mt-2 font-display text-2xl font-semibold sm:text-3xl">Bônus Exclusivos</h2>
-        <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">
+        <p className="font-display text-[10px] uppercase tracking-[0.24em] text-[var(--gold)] sm:text-[11px] sm:tracking-[0.28em]">
+          Materiais complementares
+        </p>
+        <h2 className="mt-2 font-display text-xl font-semibold leading-tight sm:text-3xl">Bônus Exclusivos</h2>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
           Planilhas, checklists, guias práticos e materiais extras para acelerar sua obra com mais segurança.
         </p>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
           {bonuses.map((b) => (
             <Link
               key={b.id}
               to="/projeto/$id"
               params={{ id: b.id }}
-              className="group overflow-hidden rounded-2xl border border-border bg-card/60 transition hover:border-[var(--gold)]/40 hover:shadow-glow"
+              className="group overflow-hidden rounded-2xl border border-border bg-card/60 transition active:scale-[0.99] hover:border-[var(--gold)]/40 hover:shadow-glow"
             >
               <div className="relative aspect-[16/10] overflow-hidden">
                 <img
                   src={b.image}
                   alt={b.title}
                   loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-                <span className="absolute left-4 top-4 rounded-md bg-[var(--gold)]/90 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
+                <span className="absolute left-3 top-3 rounded-md bg-[var(--gold)]/90 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground sm:left-4 sm:top-4">
                   Bônus
                 </span>
               </div>
-              <div className="p-5">
-                <h3 className="min-h-[3.5rem] text-balance break-words font-display text-lg font-semibold leading-tight sm:min-h-[4rem]">
+              <div className="p-4 sm:p-5">
+                <h3 className="min-h-[3.5rem] text-balance break-words font-display text-base font-semibold leading-tight sm:min-h-[4rem] sm:text-lg">
                   {b.title}
                 </h3>
-                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{b.description}</p>
-                <span className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--gold)]">
+                <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{b.description}</p>
+                <span className="mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--gold)] sm:mt-4">
                   Acessar Bônus
                 </span>
               </div>
@@ -339,97 +254,6 @@ function LandingPage() {
           ))}
         </div>
       </section>
-
-      <Dialog open={basicUpgradeOpen} onOpenChange={setBasicUpgradeOpen}>
-        <DialogContent className="max-w-xl overflow-hidden rounded-3xl border border-border bg-card/60 p-0 backdrop-blur-xl shadow-card">
-          <div className="p-6 sm:p-8">
-            <div className="mx-auto w-fit rounded-full border border-red-500/20 bg-red-500/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.28em] text-red-200">
-              Espere! Pense bem antes de trocar
-            </div>
-
-            <h2 className="mt-6 text-center font-display text-2xl font-bold leading-tight sm:text-3xl">
-              Você vai mesmo abrir mão do{" "}
-              <span className="text-[var(--gold)]">Plano Completo</span>?
-            </h2>
-            <p className="mt-3 text-center text-sm text-muted-foreground">
-              Ao escolher o Plano Básico, você deixa de ter acesso imediato a recursos que evitam erros e aceleram sua
-              construção.
-            </p>
-
-            <div className="mt-6 rounded-2xl border border-border bg-background/40 p-5">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[var(--gold)]">
-                  Oferta única desta página
-                </p>
-                <span className="rounded-full border border-[var(--gold)]/20 bg-[var(--gold)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[var(--gold)]">
-                  Mega Pack com desconto
-                </span>
-              </div>
-
-              <div className="mt-5 space-y-2.5 text-sm text-muted-foreground">
-                {[
-                  "100+ projetos completos e editáveis em Revit + DWG",
-                  "Planilha/Simulador de custos + cronograma para planejar com clareza",
-                  "Checklist técnico para canteiro de obras",
-                  "Acesso vitalício + bônus VIP",
-                ].map((t) => (
-                  <div key={t} className="flex items-start gap-2">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--gold)]/80" />
-                    <span>{t}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-6 flex flex-wrap items-end justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="text-xs text-muted-foreground">
-                    <span className="line-through">R$ 37,90</span> <span className="mx-2">→</span>{" "}
-                    <span className="font-semibold text-foreground">por apenas R$ 19,90</span>
-                  </p>
-                  <p className="mt-1 font-display text-3xl font-bold leading-none text-foreground">Leve tudo por R$ 19,90</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 grid gap-3">
-              <a
-                href={basicUpgradeUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() =>
-                  track("InitiateCheckout", {
-                    currency: "BRL",
-                    content_category: "plan",
-                    content_name: "Upgrade Mega Pack",
-                    content_ids: ["mega-upgrade"],
-                    value: 19.9,
-                  })
-                }
-                className="inline-flex w-full items-center justify-center rounded-xl bg-[var(--gold)] px-6 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition hover:brightness-110 hover:shadow-glow"
-              >
-                Sim! Quero o upgrade por R$ 19,90
-              </a>
-              <a
-                href={basicCheckoutUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() =>
-                  track("InitiateCheckout", {
-                    currency: "BRL",
-                    content_category: "plan",
-                    content_name: "Pack Básico",
-                    content_ids: ["basic"],
-                    value: 10,
-                  })
-                }
-                className="inline-flex w-full items-center justify-center rounded-xl border border-border bg-background/40 px-6 py-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground transition hover:border-[var(--gold)]/30 hover:bg-background/60 hover:text-foreground"
-              >
-                Não, quero seguir com o plano básico
-              </a>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </AppShell>
   );
 }

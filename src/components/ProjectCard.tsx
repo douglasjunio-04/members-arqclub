@@ -12,30 +12,36 @@ export function ProjectCard({ project, size = "default", fluid = false }: Props)
   const widthCls = fluid
     ? "w-full"
     : size === "wide"
-      ? "w-[260px] sm:w-[300px] lg:w-[340px]"
-      : "w-[190px] sm:w-[230px] lg:w-[260px]";
+      ? "w-[240px] sm:w-[300px] lg:w-[340px]"
+      : "w-[188px] sm:w-[230px] lg:w-[260px]";
 
   return (
     <div className={`group relative ${fluid ? "" : "shrink-0"} ${widthCls}`}>
       <Link
         to="/projeto/$id"
         params={{ id: project.id }}
-        className="block overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-[var(--gold)]/40 hover:shadow-glow"
+        className="block overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-[var(--gold)]/40 hover:shadow-glow active:scale-[0.98]"
       >
         <div className="relative aspect-[4/5] overflow-hidden">
           <img
             src={project.image}
             alt={project.title}
             loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
 
-          <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-            {project.files.slice(0, 3).map((f) => (
+          <div className="absolute left-2 top-2 flex flex-wrap gap-1 sm:left-3 sm:top-3 sm:gap-1.5">
+            {project.isFree && (
+              <span className="rounded-md bg-emerald-500/90 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm sm:px-2 sm:text-[10px]">
+                Grátis
+              </span>
+            )}
+            {project.files.slice(0, 1).map((f) => (
               <span
                 key={f}
-                className={`rounded-md px-1.5 py-0.5 text-[10px] font-semibold tracking-wider backdrop-blur ${
+                className={`rounded-md px-1.5 py-0.5 text-[9px] font-semibold tracking-wider backdrop-blur sm:text-[10px] ${
                   f === "Bônus"
                     ? "bg-[var(--gold)]/90 text-primary-foreground"
                     : "bg-black/60 text-foreground border border-white/10"
@@ -46,17 +52,19 @@ export function ProjectCard({ project, size = "default", fluid = false }: Props)
             ))}
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-3">
-            <p className="font-display text-[11px] uppercase tracking-[0.18em] text-[var(--gold)]/90">
+          <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
+            <p className="font-display text-[10px] uppercase tracking-[0.16em] text-[var(--gold)]/90 sm:text-[11px] sm:tracking-[0.18em]">
               {project.category}
             </p>
-            <h3 className="mt-1 line-clamp-1 font-display text-base font-semibold text-foreground">
+            <h3 className="mt-1 line-clamp-2 font-display text-[13px] font-semibold leading-tight text-foreground sm:line-clamp-1 sm:text-[15px]">
               {project.title}
             </h3>
-            <div className="mt-1 flex items-center gap-2 text-[11px] text-muted-foreground">
+            <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[10px] text-muted-foreground sm:gap-2 sm:text-[11px]">
               <span>{project.landSize}</span>
-              <span className="h-1 w-1 rounded-full bg-muted-foreground/50" />
-              <span>{project.builtArea}</span>
+              {project.builtArea !== "—" && project.landSize !== "—" && (
+                <span className="h-1 w-1 shrink-0 rounded-full bg-muted-foreground/50" />
+              )}
+              {project.builtArea !== "—" && <span>{project.builtArea}</span>}
             </div>
           </div>
         </div>
@@ -67,7 +75,7 @@ export function ProjectCard({ project, size = "default", fluid = false }: Props)
           e.preventDefault();
           toggle(project.id);
         }}
-        className={`absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full backdrop-blur transition ${
+        className={`absolute right-2.5 top-2.5 grid h-8 w-8 shrink-0 place-items-center rounded-full backdrop-blur transition active:scale-95 sm:right-3 sm:top-3 ${
           fav
             ? "bg-[var(--gold)] text-primary-foreground"
             : "bg-black/60 text-foreground border border-white/10 hover:bg-black/80"

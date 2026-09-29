@@ -18,26 +18,26 @@ export function ProjectCarousel({ title, projects, eyebrow }: Props) {
 
   return (
     <section className="group/section relative">
-      <div className="mb-4 flex items-end justify-between gap-4 px-4 sm:px-8">
+      <div className="mb-3 flex items-end justify-between gap-4 px-4 sm:mb-4 sm:px-8">
         <div className="min-w-0">
           {eyebrow && (
-            <p className="font-display text-[11px] uppercase tracking-[0.28em] text-[var(--gold)]">{eyebrow}</p>
+            <p className="font-display text-[10px] uppercase tracking-[0.24em] text-[var(--gold)] sm:text-[11px] sm:tracking-[0.28em]">{eyebrow}</p>
           )}
-          <h2 className="mt-1 truncate font-display text-xl font-semibold text-foreground sm:text-2xl">
+          <h2 className="mt-1 truncate font-display text-lg font-semibold leading-tight text-foreground sm:text-2xl max-sm:max-w-[80%]">
             {title}
           </h2>
         </div>
-        <div className="hidden shrink-0 gap-1 sm:flex">
+        <div className="flex shrink-0 gap-1 sm:gap-1.5">
           <button
             onClick={() => scroll(-1)}
-            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-surface/60 text-muted-foreground hover:text-foreground hover:border-[var(--gold)]/40 transition"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border bg-surface/60 text-muted-foreground active:scale-95 hover:text-foreground hover:border-[var(--gold)]/40 transition"
             aria-label="Anterior"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
           <button
             onClick={() => scroll(1)}
-            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-surface/60 text-muted-foreground hover:text-foreground hover:border-[var(--gold)]/40 transition"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border bg-surface/60 text-muted-foreground active:scale-95 hover:text-foreground hover:border-[var(--gold)]/40 transition"
             aria-label="Próximo"
           >
             <ChevronRight className="h-4 w-4" />
@@ -48,12 +48,14 @@ export function ProjectCarousel({ title, projects, eyebrow }: Props) {
       <div className="relative">
         <div
           ref={ref}
-          className="scrollbar-hide flex gap-4 overflow-x-auto scroll-smooth px-4 pb-4 sm:px-8"
+          className="scrollbar-hide flex gap-3 overflow-x-auto scroll-smooth px-4 pb-5 sm:gap-4 sm:px-8 sm:pb-4 snap-x snap-mandatory touch-pan-x"
         >
           {projects.map((p) => (
-            <ProjectCard key={p.id} project={p} />
+            <div key={p.id} className="snap-start">
+              <ProjectCard project={p} />
+            </div>
           ))}
-          <div className="shrink-0 w-2" />
+          <div className="shrink-0 w-3 sm:w-2" />
         </div>
       </div>
     </section>

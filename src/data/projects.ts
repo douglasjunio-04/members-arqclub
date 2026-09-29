@@ -30,6 +30,8 @@ export type Project = {
   files: FileType[];
   tags: string[];
   isBonus?: boolean;
+  isFree?: boolean;
+  downloadUrl?: string;
 };
 
 const landWidth = (value: string) => {
@@ -43,17 +45,17 @@ const raw: Array<Omit<Project, "image" | "images"> & { img?: number }> = [
   { id: "roma-10x20", title: "Projeto Roma", category: "Casas Modernas", type: "Térrea", landSize: "10x20 m", builtArea: "98 m²", description: "Casa térrea moderna com 3 quartos, suíte e área gourmet integrada.", files: ["Revit", "DWG", "PDF"], tags: ["3 quartos", "Suíte", "Garagem 2"], img: 0 },
   { id: "lisboa-13x25", title: "Projeto Lisboa", category: "Casas Modernas", type: "Térrea", landSize: "13x25 m", builtArea: "142 m²", description: "Térrea sofisticada com pé-direito duplo na sala e fachada minimalista.", files: ["Revit", "DWG", "PDF"], tags: ["Pé-direito duplo", "3 suítes"], img: 2 },
   { id: "madrid-13x30", title: "Projeto Madrid", category: "Casas Modernas", type: "Térrea", landSize: "13x30 m", builtArea: "180 m²", description: "Projeto amplo com piscina, churrasqueira e 4 suítes.", files: ["Revit", "DWG", "PDF"], tags: ["Piscina", "4 suítes"], img: 1 },
-  { id: "berlim-12x25", title: "Projeto Berlim", category: "Sobrados e Duplex", type: "Duplex", landSize: "12x25 m", builtArea: "210 m²", description: "Duplex contemporâneo com fachada em concreto aparente.", files: ["Revit", "DWG", "PDF"], tags: ["Duplex", "Concreto"], img: 4 },
+  { id: "berlim-12x25", title: "Projeto Berlim", category: "Sobrados e Duplex", type: "Duplex", landSize: "12x25 m", builtArea: "210 m²", description: "Duplex contemporâneo com fachada em concreto aparente.", files: ["Revit", "DWG", "PDF"], tags: ["Duplex", "Concreto"], img: 4, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1IatZwizZXk5Ko-vJqMdAnJlZHx9DVxPV?usp=drive_link" },
   { id: "p018-copenhague", title: "Projeto Copenhague", category: "Casas Modernas", type: "Térrea", landSize: "12x20 m", builtArea: "—", description: "Casa térrea para lote 12x20 com proposta contemporânea e ambientes bem resolvidos.", files: ["Revit", "DWG", "PDF"], tags: ["Térrea", "12x20"], img: 2 },
   { id: "p010-lima", title: "Projeto Lima", category: "Sobrados e Duplex", type: "Duplex", landSize: "—", builtArea: "—", description: "Projeto duplex com fachada marcante e planta pensada para conforto no dia a dia.", files: ["Revit", "DWG", "PDF"], tags: ["Duplex"], img: 4 },
   { id: "p009-moscou", title: "Projeto Moscou", category: "Casas Modernas", type: "Térrea", landSize: "12x25 m", builtArea: "—", description: "Casa térrea para lote 12x25 com fachada marcante e planta funcional.", files: ["Revit", "DWG", "PDF"], tags: ["Térrea", "12x25"], img: 2 },
-  { id: "p011-teera", title: "Projeto Teerã", category: "Sobrados e Duplex", type: "Triplex", landSize: "12x25 m", builtArea: "—", description: "Projeto triplex para lote 12x25 com volumetria moderna e ótima distribuição vertical.", files: ["Revit", "DWG", "PDF"], tags: ["Triplex", "12x25"], img: 4 },
+  { id: "p011-teera", title: "Projeto Teerã", category: "Sobrados e Duplex", type: "Triplex", landSize: "12x25 m", builtArea: "—", description: "Projeto triplex para lote 12x25 com volumetria moderna e ótima distribuição vertical.", files: ["Revit", "DWG", "PDF"], tags: ["Triplex", "12x25"], img: 4, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1GK9VZzAHBLkbksGeZarcrVJIDaBYQKxn?usp=drive_link" },
   { id: "p022-12x24", title: "Casa Duplex 12x24", category: "Sobrados e Duplex", type: "Duplex", landSize: "12x24 m", builtArea: "240 m²", description: "Casa duplex ampla para lote 12x24 com ambientes generosos e fachada marcante.", files: ["Revit", "DWG", "PDF"], tags: ["Duplex", "240 m²"], img: 4 },
   { id: "p025-12x22", title: "Casa Térrea 12x22", category: "Casas Modernas", type: "Térrea", landSize: "12x22 m", builtArea: "180 m²", description: "Casa térrea moderna com 180 m² e planta confortável para lote 12x22.", files: ["Revit", "DWG", "PDF"], tags: ["Térrea", "180 m²"], img: 2 },
   { id: "p027-comercial-12x25", title: "Comercial 12x25", category: "Comercial", type: "Comercial", landSize: "12x25 m", builtArea: "—", description: "Projeto comercial para lote 12x25 com layout versátil para operação e atendimento.", files: ["Revit", "DWG", "PDF"], tags: ["Comercial", "12x25"], img: 5 },
   { id: "toquio-10x25", title: "Projeto Tóquio", category: "Casas Modernas", type: "Térrea", landSize: "10x25 m", builtArea: "120 m²", description: "Inspiração japonesa, jardim interno e linhas limpas.", files: ["Revit", "DWG", "PDF"], tags: ["Jardim interno"], img: 2 },
   { id: "londres-12x25", title: "Projeto Londres", category: "Sobrados e Duplex", type: "Duplex", landSize: "12x25 m", builtArea: "195 m²", description: "Sobrado urbano com home office e terraço.", files: ["Revit", "DWG", "PDF"], tags: ["Home office", "Terraço"], img: 1 },
-  { id: "bagda-10x25", title: "Projeto Bagdá", category: "Casas Modernas", type: "Térrea", landSize: "10x25 m", builtArea: "140 m²", description: "Térrea ampla com área social integrada e boa iluminação natural.", files: ["Revit", "DWG", "PDF"], tags: ["Térrea", "Integrada"], img: 3 },
+  { id: "bagda-10x25", title: "Projeto Bagdá", category: "Casas Modernas", type: "Térrea", landSize: "10x25 m", builtArea: "140 m²", description: "Térrea ampla com área social integrada e boa iluminação natural.", files: ["Revit", "DWG", "PDF"], tags: ["Térrea", "Integrada"], img: 3, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1tswlRZCHSrpG36atTNaaHhkFcBNvH--c?usp=drive_link" },
   { id: "atenas-10x21", title: "Projeto Atenas", category: "Casas Modernas", type: "Térrea", landSize: "10x21 m", builtArea: "—", description: "Térrea otimizada para lote 10x21 com layout funcional.", files: ["Revit", "DWG", "PDF"], tags: ["Térrea"], img: 2 },
   { id: "zagreb-10x25", title: "Projeto Zagreb", category: "Casas Modernas", type: "Térrea", landSize: "10x25 m", builtArea: "195 m²", description: "Projeto de alto padrão com foco em conforto e espaços amplos.", files: ["Revit", "DWG", "PDF"], tags: ["Alto padrão"], img: 4 },
   { id: "amsterda-15x30", title: "Projeto Amsterdã", category: "Casas Modernas", type: "Térrea", landSize: "15x30 m", builtArea: "—", description: "Térrea contemporânea com áreas generosas e fachada marcante.", files: ["Revit", "DWG", "PDF"], tags: ["Contemporânea"], img: 1 },
@@ -64,7 +66,7 @@ const raw: Array<Omit<Project, "image" | "images"> & { img?: number }> = [
   // Populares 4x...
   { id: "p010", title: "Condomínio Térrea 010", category: "Casas Populares", type: "Condomínio", landSize: "4x15 m", builtArea: "50 m²", description: "Modelo otimizado para condomínio horizontal popular.", files: ["DWG", "PDF"], tags: ["Compacta"], img: 0 },
   { id: "p021", title: "Mini Casa 021", category: "Projetos para Terrenos Pequenos", type: "Térrea", landSize: "4,3x5,30 m", builtArea: "22 m²", description: "Mini casa otimizada para o menor terreno possível.", files: ["DWG", "PDF"], tags: ["Mini"], img: 5 },
-  { id: "p024", title: "Casa Duplex 024", category: "Sobrados e Duplex", type: "Duplex", landSize: "4,5x20 m", builtArea: "137 m²", description: "Duplex estreito com excelente aproveitamento vertical.", files: ["Revit", "DWG", "PDF"], tags: ["Lote estreito"], img: 4 },
+  { id: "p024", title: "Casa Duplex 024", category: "Sobrados e Duplex", type: "Duplex", landSize: "4,5x20 m", builtArea: "137 m²", description: "Duplex estreito com excelente aproveitamento vertical.", files: ["Revit", "DWG", "PDF"], tags: ["Lote estreito"], img: 4, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1dPbC_mVffn4uABFYdhplJPxzHbiJuI3Y?usp=drive_link" },
   { id: "p026", title: "Casa Térrea 026", category: "Projetos para Terrenos Pequenos", type: "Térrea", landSize: "4,7x20 m", builtArea: "72,79 m²", description: "Térrea funcional para terreno estreito.", files: ["DWG", "PDF"], tags: ["Compacta"], img: 0 },
   { id: "p027", title: "Casa Duplex 027", category: "Sobrados e Duplex", type: "Duplex", landSize: "4,5x19,80 m", builtArea: "145,92 m²", description: "Duplex moderno em lote estreito.", files: ["Revit", "DWG", "PDF"], tags: ["Duplex"], img: 1 },
   { id: "p039", title: "Cond. Duplex 039", category: "Casas Populares", type: "Condomínio", landSize: "4x12 m", builtArea: "70 m²", description: "Solução de condomínio com unidades duplex compactas.", files: ["DWG", "PDF"], tags: ["Condomínio"], img: 3 },
@@ -74,7 +76,7 @@ const raw: Array<Omit<Project, "image" | "images"> & { img?: number }> = [
   { id: "p011", title: "Cond. Térrea 011", category: "Casas Populares", type: "Condomínio", landSize: "5x20 m", builtArea: "50 m²", description: "Térrea popular para empreendimentos.", files: ["DWG", "PDF"], tags: ["Popular"], img: 0 },
   { id: "p012", title: "Casa Duplex 012", category: "Sobrados e Duplex", type: "Duplex", landSize: "5x26 m", builtArea: "75,27 m²", description: "Duplex compacto e moderno.", files: ["DWG", "PDF"], tags: ["Duplex"], img: 4 },
   { id: "p013", title: "Casa Duplex 013", category: "Sobrados e Duplex", type: "Duplex", landSize: "5x26 m", builtArea: "76,98 m²", description: "Variação do modelo 012 com layout otimizado.", files: ["DWG", "PDF"], tags: ["Duplex"], img: 1 },
-  { id: "p014", title: "Casa Térrea 014", category: "Casas Modernas", type: "Térrea", landSize: "5,5x29 m", builtArea: "90 m²", description: "Casa térrea funcional com boa implantação para lote 5,5x29.", files: ["DWG", "PDF"], tags: ["Térrea", "90 m²"], img: 2 },
+  { id: "p014", title: "Casa Térrea 014", category: "Casas Modernas", type: "Térrea", landSize: "5,5x29 m", builtArea: "90 m²", description: "Casa térrea funcional com boa implantação para lote 5,5x29.", files: ["DWG", "PDF"], tags: ["Térrea", "90 m²"], img: 2, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1Ttb8YWrOpHmKAF0XBpn8VAqJmDSvBucI?usp=drive_link" },
   { id: "p047", title: "Sobrado 047", category: "Sobrados e Duplex", type: "Sobrado", landSize: "5,5x22 m", builtArea: "93 m²", description: "Sobrado prático com fachada limpa.", files: ["Revit", "DWG", "PDF"], tags: ["Sobrado"], img: 2 },
   { id: "p025", title: "Casa Duplex 025", category: "Sobrados e Duplex", type: "Duplex", landSize: "5,66x23,5 m", builtArea: "83,01 m²", description: "Casa duplex compacta com boa distribuição interna para lote estreito.", files: ["DWG", "PDF"], tags: ["Duplex", "83,01 m²"], img: 4 },
   { id: "p048", title: "Casa + Etapas 048", category: "Casas Populares", type: "Térrea", landSize: "5x35 m", builtArea: "45 m²", description: "Inclui etapas detalhadas da obra.", files: ["DWG", "PDF"], tags: ["Etapas obra"], img: 0 },
@@ -94,7 +96,7 @@ const raw: Array<Omit<Project, "image" | "images"> & { img?: number }> = [
 
   // 7x
   { id: "p005", title: "Casa Duplex 005", category: "Sobrados e Duplex", type: "Duplex", landSize: "7,50x20 m", builtArea: "110 m²", description: "Casa duplex para lote 7,50x20 com layout funcional e boa área construída.", files: ["Revit", "DWG", "PDF"], tags: ["Duplex", "7,50x20", "110 m²"], img: 4 },
-  { id: "p002", title: "Casa Térrea 002", category: "Casas Modernas", type: "Térrea", landSize: "7,5x30 m", builtArea: "80 m²", description: "Térrea com planta simples e ambientes integrados.", files: ["DWG", "PDF"], tags: ["Integrada"], img: 2 },
+  { id: "p002", title: "Casa Térrea 002", category: "Casas Modernas", type: "Térrea", landSize: "7,5x30 m", builtArea: "80 m²", description: "Térrea com planta simples e ambientes integrados.", files: ["DWG", "PDF"], tags: ["Integrada"], img: 2, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1UHf53f333RJiCt7FXPE4BqeZqxw39yQI?usp=drive_link" },
   { id: "p003", title: "Casa Térrea 003", category: "Casas Modernas", type: "Térrea", landSize: "7,5x30 m", builtArea: "82 m²", description: "Variação do modelo 002 com ajustes de layout.", files: ["DWG", "PDF"], tags: ["Térrea"], img: 1 },
   { id: "p015", title: "Casa Térrea 015", category: "Casas Modernas", type: "Térrea", landSize: "7x25 m", builtArea: "101 m²", description: "Térrea moderna com fachada em ripado.", files: ["Revit", "DWG", "PDF"], tags: ["Ripado"], img: 2 },
   { id: "p030", title: "Cond. Térrea 030", category: "Casas Populares", type: "Condomínio", landSize: "7x20 m", builtArea: "50 m²", description: "Condomínio com unidades térreas compactas e econômicas.", files: ["DWG", "PDF"], tags: ["Condomínio"], img: 0 },
@@ -110,8 +112,8 @@ const raw: Array<Omit<Project, "image" | "images"> & { img?: number }> = [
   { id: "p064", title: "Casa + Etapas 064", category: "Casas Populares", type: "Térrea", landSize: "7x22 m", builtArea: "73,80 m²", description: "Casa com etapas e área construída ampliada.", files: ["DWG", "PDF"], tags: ["Etapas obra"], img: 5 },
 
   // 8x
-  { id: "p008", title: "Duplex + Comercial 008", category: "Sobrados e Duplex", type: "Duplex", landSize: "8x23 m", builtArea: "180 m²", description: "Duplex com ponto comercial no térreo.", files: ["Revit", "DWG", "PDF"], tags: ["Comercial"], img: 4 },
-  { id: "p009", title: "Cond. Térrea 009", category: "Casas Populares", type: "Condomínio", landSize: "8x11 m", builtArea: "70 m²", description: "Condomínio com casa térrea compacta para lote 8x11.", files: ["DWG", "PDF"], tags: ["Condomínio"], img: 3 },
+  { id: "p008", title: "Duplex + Comercial 008", category: "Sobrados e Duplex", type: "Duplex", landSize: "8x23 m", builtArea: "180 m²", description: "Duplex com ponto comercial no térreo.", files: ["Revit", "DWG", "PDF"], tags: ["Comercial"], img: 4, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/18KCJJBSu-CsJydjD38joYvUYHAQIx6XZ?usp=drive_link" },
+  { id: "p009", title: "Cond. Térrea 009", category: "Casas Populares", type: "Condomínio", landSize: "8x11 m", builtArea: "70 m²", description: "Condomínio com casa térrea compacta para lote 8x11.", files: ["DWG", "PDF"], tags: ["Condomínio"], img: 3, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1-gl5APo8f9VBrK2YQXiAHTOYpLp1qWvv?usp=drive_link" },
   { id: "p020", title: "Casa Térrea 020", category: "Casas Modernas", type: "Térrea", landSize: "8x30 m", builtArea: "142,46 m²", description: "Térrea ampla com varanda integrada.", files: ["Revit", "DWG", "PDF"], tags: ["Varanda"], img: 2 },
   { id: "p031", title: "Casa Térrea 031", category: "Casas Populares", type: "Térrea", landSize: "8x20 m", builtArea: "60 m²", description: "Térrea compacta com excelente custo-benefício.", files: ["DWG", "PDF"], tags: ["Popular"], img: 0 },
   { id: "p033", title: "Casa Térrea 033", category: "Casas Modernas", type: "Térrea", landSize: "8x20 m", builtArea: "90 m²", description: "Térrea com planta bem resolvida e fachada contemporânea.", files: ["Revit", "DWG", "PDF"], tags: ["Térrea"], img: 2 },
@@ -119,10 +121,10 @@ const raw: Array<Omit<Project, "image" | "images"> & { img?: number }> = [
   { id: "p038", title: "Cond. Térrea 038", category: "Casas Populares", type: "Condomínio", landSize: "8x15 m", builtArea: "80 m²", description: "Condomínio com casas térreas para implantação eficiente.", files: ["DWG", "PDF"], tags: ["Condomínio"], img: 3 },
 
   // 9x
-  { id: "p007", title: "Casa com Subsolo 007", category: "Casas Modernas", type: "Térrea", landSize: "9x25 m", builtArea: "160 m²", description: "Projeto com subsolo para garagem ampla.", files: ["Revit", "DWG", "PDF"], tags: ["Subsolo"], img: 1 },
+  { id: "p007", title: "Casa com Subsolo 007", category: "Casas Modernas", type: "Térrea", landSize: "9x25 m", builtArea: "160 m²", description: "Projeto com subsolo para garagem ampla.", files: ["Revit", "DWG", "PDF"], tags: ["Subsolo"], img: 1, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1do13qnLw7Bh272i82SJ9gC8y1HQ8Fyxp?usp=drive_link" },
 
   // 10x featured extras
-  { id: "p001", title: "Casa Térrea 001", category: "Casas Populares", type: "Térrea", landSize: "10x20 m", builtArea: "74 m²", description: "Térrea popular com excelente custo-benefício.", files: ["DWG", "PDF"], tags: ["Popular"], img: 0 },
+  { id: "p001", title: "Casa Térrea 001", category: "Casas Populares", type: "Térrea", landSize: "10x20 m", builtArea: "74 m²", description: "Térrea popular com excelente custo-benefício.", files: ["DWG", "PDF"], tags: ["Popular"], img: 0, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/14HD5lr-jTDNBD8uR-IUWhAii5mMKowq-?usp=drive_link" },
   { id: "p004", title: "Casa Térrea 004", category: "Casas Populares", type: "Térrea", landSize: "10x20 m", builtArea: "70 m²", description: "Projeto térreo popular com ambientes bem dimensionados.", files: ["DWG", "PDF"], tags: ["Popular"], img: 0 },
   { id: "p016", title: "Casa Térrea 016", category: "Casas Populares", type: "Térrea", landSize: "10x24,5 m", builtArea: "66,03 m²", description: "Térrea funcional com boa circulação interna.", files: ["DWG", "PDF"], tags: ["Térrea"], img: 0 },
   { id: "p017", title: "Casa Térrea 017", category: "Casas Populares", type: "Térrea", landSize: "10x25 m", builtArea: "57,38 m²", description: "Térrea compacta com foco em economia de obra.", files: ["DWG", "PDF"], tags: ["Compacta"], img: 0 },
@@ -139,8 +141,10 @@ const raw: Array<Omit<Project, "image" | "images"> & { img?: number }> = [
   { id: "p061", title: "Casa + Etapas 061", category: "Casas Populares", type: "Térrea", landSize: "—", builtArea: "—", description: "Projeto com etapas da obra e conjunto visual complementar para execução.", files: ["DWG", "PDF"], tags: ["Etapas obra"], img: 0 },
 
   // 13x+
-  { id: "p024-triplex", title: "Casa Triplex 13x26", category: "Sobrados e Duplex", type: "Triplex", landSize: "13x26 m", builtArea: "300 m²", description: "Triplex de alto padrão com elevador opcional.", files: ["Revit", "DWG", "PDF"], tags: ["Triplex", "Alto padrão"], img: 1 },
+  { id: "p024-triplex", title: "Casa Triplex 13x26", category: "Sobrados e Duplex", type: "Triplex", landSize: "13x26 m", builtArea: "300 m²", description: "Triplex de alto padrão com elevador opcional.", files: ["Revit", "DWG", "PDF"], tags: ["Triplex", "Alto padrão"], img: 1, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1-ePGTI5EzKz74lWr81anxmcm891bJbDH?usp=drive_link" },
   { id: "p028", title: "Casa Térrea 13x20", category: "Casas Modernas", type: "Térrea", landSize: "13x20 m", builtArea: "130 m²", description: "Térrea generosa com 4 quartos.", files: ["Revit", "DWG", "PDF"], tags: ["4 quartos"], img: 2 },
+  { id: "sobrado-295", title: "Projeto Sobrado 295,11m²", category: "Sobrados e Duplex", type: "Sobrado", landSize: "—", builtArea: "295,11 m²", description: "Sobrado amplo com 295,11 m² de área construída e ótima distribuição de ambientes.", files: ["Revit", "DWG", "PDF"], tags: ["Sobrado", "Amplo"], img: 4, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1R4Q8peQ4zVD4ftAi76ju6FaW2DGUaQCr?usp=drive_link" },
+  { id: "sobrado-225", title: "Projeto Sobrado 225,47m²", category: "Sobrados e Duplex", type: "Sobrado", landSize: "—", builtArea: "225,47 m²", description: "Sobrado com 225,47 m², pensado para conforto e funcionalidade no dia a dia.", files: ["Revit", "DWG", "PDF"], tags: ["Sobrado", "225 m²"], img: 1, isFree: true, downloadUrl: "https://drive.google.com/drive/folders/1c9LMtPLJgwJ4h5WUwbHw9CbYs12U47op?usp=drive_link" },
 
   // 15x+
   { id: "p013-jacarta", title: "Projeto Jacarta", category: "Casas Modernas", type: "Térrea", landSize: "15x40 m", builtArea: "260 m²", description: "Projeto premium com piscina e área gourmet ampla.", files: ["Revit", "DWG", "PDF"], tags: ["Premium"], img: 2 },
@@ -209,7 +213,7 @@ const galleryFilesById: Record<string, string[]> = {
   "p023": ["023 - CASA DUPLEX - 6 X 18,50 - 170 M2-02.webp"],
   "p043": ["043 - CONDOMINIO COM CASAS TÉRREAS - 6X20 - 80 M2.webp"],
   "p005": ["CASA DUPLEX 005.webp"],
-  "p002": ["CASA TERREA 002.webp"],
+  "p002": ["CASA TERREA 002.webp", "CASA TERREA 002 - 002.webp", "CASA TERREA 002 - 003.webp"],
   "p003": ["CASA TERREA 003.webp"],
   "p030": [
     "030 - MC CONDOMINIO COM CASAS TÉRREAS - 7X20 - 50 M2-FACHADA-01.webp",
@@ -226,7 +230,7 @@ const galleryFilesById: Record<string, string[]> = {
   "p059": ["059 - CASA + ETAPAS.webp"],
   "p060": ["060 - CASA + ETAPAS.webp"],
   "p061": ["061 - CASA + ETAPAS P1.webp", "061 - CASA + ETAPAS P2.webp"],
-  "p008": ["CASA DUPLEX + COMERCIAL 008.webp"],
+  "p008": ["CASA DUPLEX + COMERCIAL 008.webp", "CASA DUPLEX COMERCIAL 008 - 001.webp", "CASA DUPLEX COMERCIAL 008 - 002.webp", "CASA DUPLEX COMERCIAL 008 - 003.webp", "CASA DUPLEX COMERCIAL 008 - 005.webp", "CASA DUPLEX COMERCIAL 008 - 006.webp"],
   "p009": [
     "COND. CASAS TERREAS 009 P1.webp",
     "COND. CASAS TERREAS 009 P2.webp",
@@ -239,7 +243,7 @@ const galleryFilesById: Record<string, string[]> = {
   "p033": ["033 - CASA TERREA - 8X20 - 90 M2.webp"],
   "p035": ["035 - CASA TÉRREA - PONTA DE QUADRA - 70 M2.webp"],
   "p007": ["CASA COM SUBSOLO 007.webp"],
-  "p001": ["blueprint.jpg"],
+  "p001": ["CASA TERREA 001 - fachada.jpg", "CASA TERREA 001.jpg", "CASA TERREA 001 - 002.jpg", "CASA TERREA 001 - 003.jpg"],
   "p004": ["CASA TERREA 004.webp"],
   "p016": ["016 - CASA TERREA 10X24,5 - 66,03M2.webp"],
   "p018": ["018 - CASA TERREA 10X25 -  68,88m2.webp"],
@@ -252,7 +256,7 @@ const galleryFilesById: Record<string, string[]> = {
     "029 - CASA TERREA - TERRENO 10X20 - 88 m2-FACHADA-03.webp",
     "029 - CASA TERREA - TERRENO 10X20 - 88 m2-FACHADA-04.webp",
   ],
-  "p024-triplex": ["24-CASA-TRIPLEX-13X26-300M2.webp"],
+  "p024-triplex": ["CASA TRIPLEX - 13X26 - 001.jpg", "CASA TRIPLEX - 13X26 - 002.jpg", "CASA TRIPLEX - 13X26 - 003.jpg", "24-CASA-TRIPLEX-13X26-300M2.webp"],
   "p022-12x24": ["22-CASA-DUPLEX-12X24-240-M2.webp"],
   "p025-12x22": ["25-CASA-TERREA-12X22-180-M2.webp"],
   "p027-comercial-12x25": ["27-COMERCIAL-12X25.webp"],
@@ -278,6 +282,35 @@ const galleryFilesById: Record<string, string[]> = {
     "043 - CASA DUPLEX - 5X20 - 80 M2-02-01 (8).webp",
     "043 - CASA DUPLEX - 5X20 - 80 M2-02-01 (9).webp",
   ],
+  "sobrado-295": [
+    "Projeto Sobrado -  295,11m² - fachada.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO 14 PLANTA BAIXA SUPERIORP.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO 14 PLANTA BAIXA TERREO.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO 14 SUPERIOR HUMANIZADO.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO 14 TÉRREO HUMANIZADO.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO 14_12 - Foto.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO 14_14 - Foto.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO 14_15 - Foto.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO 14_16 - Foto.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO 14_17 - Foto.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO 14_18 - Foto.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO _14_Photo - 1.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO _14_Photo - 3.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO _14_Photo - 8.webp",
+    "Projeto Sobrado -  295,11m² - PROJETO _14_Photo - 10.webp",
+  ],
+  "sobrado-225": [
+    "Projeto-Sobrado-225_47m²-001-fachada.webp",
+    "Projeto-Sobrado-225_47m²-humanizada-térreo.webp",
+    "Projeto-Sobrado-225_47m²-planta-baixa-primeiro-pav.webp",
+    "Projeto-Sobrado-225_47m²-planta-baixa-térreo.webp",
+    "Projeto-Sobrado-225_47m²-PROJETO-8_2-Photo.webp",
+    "Projeto-Sobrado-225_47m²-PROJETO-8_3-Photo.webp",
+    "Projeto-Sobrado-225_47m²-PROJETO-8_4-Photo.webp",
+    "Projeto-Sobrado-225_47m²-PROJETO-8_5-Photo.webp",
+    "Projeto-Sobrado-225_47m²-PROJETO-8_6-Photo.webp",
+    "Projeto-Sobrado-225_47m²-PROJETO-8_7-Photo.webp",
+  ],
 };
 
 export const projects: Project[] = raw.map((p) => {
@@ -294,6 +327,7 @@ export const projects: Project[] = raw.map((p) => {
 export const findProject = (id: string) => projects.find((p) => p.id === id);
 
 export const sections: Array<{ title: string; filter: (p: Project) => boolean }> = [
+  { title: "Projetos Grátis", filter: (p) => !!p.isFree },
   { title: "Projetos Mais Acessados", filter: (p) => ["roma-10x20", "lisboa-13x25", "madrid-13x30", "berlim-12x25", "toquio-10x25", "londres-12x25", "p013-jacarta", "p024-triplex"].includes(p.id) },
   { title: "Casas Populares", filter: (p) => p.category === "Casas Populares" || p.builtArea !== "—" && parseFloat(p.builtArea) > 0 && parseFloat(p.builtArea) < 80 },
   { title: "Casas Modernas", filter: (p) => p.category === "Casas Modernas" },
