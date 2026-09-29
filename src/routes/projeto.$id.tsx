@@ -111,7 +111,7 @@ function ProjectDetailsPage() {
                 />
               </div>
             </div>
-            <div className="scrollbar-hide -mx-1 mt-3 flex gap-2 overflow-x-auto px-1 pb-2 touch-pan-x sm:gap-3 sm:mx-0 sm:px-0">
+            <div className="scrollbar-hide -mx-1 mt-3 flex gap-2 overflow-x-auto px-1 pb-2 touch-manipulation sm:gap-3 sm:mx-0 sm:px-0">
               {gallery.map((image, index) => (
                 <button
                   key={`${project.id}-${index}`}
@@ -230,7 +230,7 @@ function ProjectDetailsPage() {
             <h2 className="mb-4 font-display text-lg font-semibold leading-tight sm:mb-5 sm:text-2xl">
               Projetos relacionados
             </h2>
-            <div className="scrollbar-hide -mx-4 flex gap-3 overflow-x-auto px-4 pb-4 snap-x snap-mandatory touch-pan-x sm:mx-0 sm:gap-4 sm:px-0 sm:pb-0">
+            <div className="scrollbar-hide -mx-4 flex gap-3 overflow-x-auto px-4 pb-4 snap-x snap-mandatory touch-manipulation sm:mx-0 sm:gap-4 sm:px-0 sm:pb-0">
               {related.map((p) => (
                 <div key={p.id} className="snap-start shrink-0">
                   <ProjectCard project={p} />

@@ -116,7 +116,7 @@ function ProjectsPage() {
           </div>
         </div>
 
-        <div className="scrollbar-hide -mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-1.5 sm:mx-0 sm:mb-8 sm:px-0 sm:pb-0 sm:flex-wrap sm:gap-2 touch-pan-x">
+        <div className="scrollbar-hide -mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-1.5 sm:mx-0 sm:mb-8 sm:px-0 sm:pb-0 sm:flex-wrap sm:gap-2 touch-manipulation">
           {categories.map((c) => (
             <button
               key={c}
