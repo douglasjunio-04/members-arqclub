@@ -9,32 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SuporteRouteImport } from './routes/suporte'
-import { Route as ProjetosRouteImport } from './routes/projetos'
-import { Route as FavoritosRouteImport } from './routes/favoritos'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as BonusRouteImport } from './routes/bonus'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BonusRouteImport } from './routes/bonus'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as FavoritosRouteImport } from './routes/favoritos'
+import { Route as ProjetosRouteImport } from './routes/projetos'
+import { Route as SuporteRouteImport } from './routes/suporte'
 import { Route as ProjetoIdRouteImport } from './routes/projeto.$id'
 
-const SuporteRoute = SuporteRouteImport.update({
-  id: '/suporte',
-  path: '/suporte',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjetosRoute = ProjetosRouteImport.update({
-  id: '/projetos',
-  path: '/projetos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FavoritosRoute = FavoritosRouteImport.update({
-  id: '/favoritos',
-  path: '/favoritos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BonusRoute = BonusRouteImport.update({
@@ -42,9 +27,24 @@ const BonusRoute = BonusRouteImport.update({
   path: '/bonus',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritosRoute = FavoritosRouteImport.update({
+  id: '/favoritos',
+  path: '/favoritos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjetosRoute = ProjetosRouteImport.update({
+  id: '/projetos',
+  path: '/projetos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuporteRoute = SuporteRouteImport.update({
+  id: '/suporte',
+  path: '/suporte',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjetoIdRoute = ProjetoIdRouteImport.update({
@@ -123,32 +123,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/suporte': {
-      id: '/suporte'
-      path: '/suporte'
-      fullPath: '/suporte'
-      preLoaderRoute: typeof SuporteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projetos': {
-      id: '/projetos'
-      path: '/projetos'
-      fullPath: '/projetos'
-      preLoaderRoute: typeof ProjetosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/favoritos': {
-      id: '/favoritos'
-      path: '/favoritos'
-      fullPath: '/favoritos'
-      preLoaderRoute: typeof FavoritosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bonus': {
@@ -158,11 +137,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BonusRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favoritos': {
+      id: '/favoritos'
+      path: '/favoritos'
+      fullPath: '/favoritos'
+      preLoaderRoute: typeof FavoritosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projetos': {
+      id: '/projetos'
+      path: '/projetos'
+      fullPath: '/projetos'
+      preLoaderRoute: typeof ProjetosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/suporte': {
+      id: '/suporte'
+      path: '/suporte'
+      fullPath: '/suporte'
+      preLoaderRoute: typeof SuporteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projeto/$id': {
