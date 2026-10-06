@@ -4,6 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { HeroBanner } from "@/components/HeroBanner";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
 import { projects, sections } from "@/data/projects";
+import { fbqTrackInitiateCheckout, fbqTrackLead, fbqTrack } from "@/lib/tracking";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -80,10 +81,21 @@ function LandingPage() {
     return () => window.clearTimeout(t);
   }, []);
 
-  const track = (event: string, params?: Record<string, unknown>) => {
-    const fbq = (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq;
-    if (typeof fbq !== "function") return;
-    fbq("track", event, params ?? {});
+  const trackCheckoutAndGo = (href: string, opts: { value: number; id: string; name: string }) => {
+    fbqTrackInitiateCheckout({
+      value: opts.value,
+      contentId: opts.id,
+      contentName: opts.name,
+      currency: "BRL",
+      numItems: 1,
+    });
+    // Pequeno delay para garantir envio do evento em navegadores que cancelam XHR ao navegar
+    const w = window.open(href, "_blank", "noopener,noreferrer");
+    if (!w) {
+      window.setTimeout(() => {
+        window.location.href = href;
+      }, 50);
+    }
   };
 
   return (
@@ -122,6 +134,11 @@ function LandingPage() {
           <div className="grid gap-2.5 sm:flex sm:flex-wrap sm:gap-3">
             <Link
               to="/projetos"
+              onClick={() =>
+                fbqTrackLead({
+                  value: 0,
+                })
+              }
               className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2.5 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition active:scale-[0.98] hover:brightness-110 hover:shadow-glow sm:w-auto sm:px-6 sm:py-3"
             >
               Ver catálogo
@@ -129,6 +146,7 @@ function LandingPage() {
             <a
               href="#planos"
               onClick={(e) => {
+                fbqTrackLead({ value: 0 });
                 const el = document.getElementById("planos");
                 if (!el) return;
                 e.preventDefault();
@@ -152,62 +170,70 @@ function LandingPage() {
         </p>
 
         <div className="mt-7 grid gap-3 sm:mt-10 md:grid-cols-2 lg:gap-6 xl:grid-cols-2">
-          {plans.map((p) => (
-            <div
-              key={p.title}
-              className={`flex flex-col rounded-2xl border bg-card/40 p-5 sm:p-6 ${
-                p.highlight ? "border-[var(--gold)]/60 shadow-glow relative" : "border-border"
-              }`}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <h3 className="font-display text-base font-semibold sm:text-lg">{p.title}</h3>
-                  <p className="mt-2 font-display text-2xl font-bold sm:text-3xl">{p.price}</p>
-                  {"installments" in p && (
-                    <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--gold)] sm:mt-2 sm:text-xs">
-                      {p.installments}
-                    </p>
-                  )}
-                </div>
-                {p.highlight && (
-                  <span className="shrink-0 rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider text-[var(--gold)] sm:px-3 sm:text-[10px]">
-                    Mais vendido
-                  </span>
-                )}
-              </div>
-
-              <div className="scrollbar-hide mt-5 flex-1 space-y-2 overflow-y-auto pr-1 text-xs leading-relaxed text-muted-foreground sm:mt-6 sm:overflow-visible sm:pr-0 sm:text-sm md:max-h-[340px] xl:max-h-none">
-                {p.features.map((f) => (
-                  <div key={f} className="flex items-start gap-2">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--gold)]/70" />
-                    <span className="leading-relaxed">{f}</span>
-                  </div>
-                ))}
-              </div>
-
-              <a
-                href={p.checkoutUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() =>
-                  track("InitiateCheckout", {
-                    currency: "BRL",
-                    content_category: "plan",
-                    content_name: p.title,
-                    content_ids: [p.id],
-                    value: p.id === "mega" ? 37.9 : 67,
-                  })
-                }
-                className={`mt-6 inline-flex w-full items-center justify-center rounded-md px-5 py-3 text-xs font-semibold uppercase tracking-wider transition active:scale-[0.98] sm:mt-8 ${
-                  p.highlight
-                    ? "bg-[var(--gold)] text-primary-foreground hover:brightness-110 hover:shadow-glow"
-                    : "border border-border bg-background/40 text-foreground hover:border-[var(--gold)]/40 hover:bg-background/60"
+          {plans.map((p) => {
+            const value = p.id === "mega" ? 37.9 : 67;
+            return (
+              <div
+                key={p.title}
+                className={`flex flex-col rounded-2xl border bg-card/40 p-5 sm:p-6 ${
+                  p.highlight ? "border-[var(--gold)]/60 shadow-glow relative" : "border-border"
                 }`}
               >
-                {p.cta}
-              </a>
-            </div>
-          ))}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <h3 className="font-display text-base font-semibold sm:text-lg">{p.title}</h3>
+                    <p className="mt-2 font-display text-2xl font-bold sm:text-3xl">{p.price}</p>
+                    {"installments" in p && (
+                      <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--gold)] sm:mt-2 sm:text-xs">
+                        {p.installments}
+                      </p>
+                    )}
+                  </div>
+                  {p.highlight && (
+                    <span className="shrink-0 rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider text-[var(--gold)] sm:px-3 sm:text-[10px]">
+                      Mais vendido
+                    </span>
+                  )}
+                </div>
+
+                <div className="scrollbar-hide mt-5 flex-1 space-y-2 overflow-y-auto pr-1 text-xs leading-relaxed text-muted-foreground sm:mt-6 sm:overflow-visible sm:pr-0 sm:text-sm md:max-h-[340px] xl:max-h-none">
+                  {p.features.map((f) => (
+                    <div key={f} className="flex items-start gap-2">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--gold)]/70" />
+                      <span className="leading-relaxed">{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <a
+                  href={p.checkoutUrl}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    trackCheckoutAndGo(p.checkoutUrl, {
+                      value,
+                      id: p.id,
+                      name: p.title,
+                    });
+                    fbqTrack("AddToCart", {
+                      value,
+                      currency: "BRL",
+                      content_type: "product",
+                      content_ids: [p.id],
+                      content_name: p.title,
+                      num_items: 1,
+                    });
+                  }}
+                  className={`mt-6 inline-flex w-full items-center justify-center rounded-md px-5 py-3 text-xs font-semibold uppercase tracking-wider transition active:scale-[0.98] sm:mt-8 ${
+                    p.highlight
+                      ? "bg-[var(--gold)] text-primary-foreground hover:brightness-110 hover:shadow-glow"
+                      : "border border-border bg-background/40 text-foreground hover:border-[var(--gold)]/40 hover:bg-background/60"
+                  }`}
+                >
+                  {p.cta}
+                </a>
+              </div>
+            );
+          })}
         </div>
       </section>
 
